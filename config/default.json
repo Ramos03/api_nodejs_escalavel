@@ -1,0 +1,11 @@
+{
+    "mysql": {
+        "database": "",
+        "usuario": "",
+        "senha": "",
+        "host": ""
+    },
+    "api": {
+        "porta": 3000
+    }
+}
