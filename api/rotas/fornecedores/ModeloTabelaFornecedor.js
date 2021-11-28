@@ -14,7 +14,7 @@ const colunas = {
         type: Sequelize.ENUM('ração', 'brinquedos'),
         allowNull: false
     },
-}
+};
 
 const opcoes = {
     freezeTableName: true,
@@ -23,5 +23,6 @@ const opcoes = {
     createdAt: 'dataCriacao',
     updatedAt: 'dataAtualizacao',
     version: 'versao'
-}
+};
+
 module.exports = instancia.define('fornecedor', colunas, opcoes);

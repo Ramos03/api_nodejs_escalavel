@@ -22,21 +22,21 @@ roteador.get('/', async (req, res) => {
  * Rota para inserir um fornecedor
  */
 roteador.post('/', async (req, res, next) => {
-    try{
+    try {
         const dadosRecebidos = req.body;
         const fornecedor = new Fornecedor(dadosRecebidos);
 
         await fornecedor.criar();
-        
+
         res.status(201);
 
         const serializador = new SerializadorFornecedor(
             res.getHeader('Content-Type')
         );
-        
+
         res.send(serializador.serializar(fornecedor));
 
-    } catch(erro) {
+    } catch (erro) {
         next(erro);
     }
 
@@ -47,11 +47,11 @@ roteador.post('/', async (req, res, next) => {
  */
 roteador.get('/:idFornecedor', async (req, res, next) => {
 
-    try{
+    try {
         const id = req.params.idFornecedor;
 
-        const fornecedor = new Fornecedor( { id: id });
-    
+        const fornecedor = new Fornecedor({ id: id });
+
         await fornecedor.carregar();
 
         res.status(200);
@@ -60,10 +60,10 @@ roteador.get('/:idFornecedor', async (req, res, next) => {
             res.getHeader('Content-Type'),
             ['email', 'dataCriacao', 'dataAtualizacao']
         );
-    
+
         res.send(serializador.serializar(fornecedor));
-    
-    } catch(erro) {
+
+    } catch (erro) {
         next(erro);
     }
 });
@@ -73,19 +73,19 @@ roteador.get('/:idFornecedor', async (req, res, next) => {
  */
 roteador.put('/:idFornecedor', async (req, res, next) => {
 
-    try{
+    try {
         const id = req.params.idFornecedor;
         const dados = req.body;
 
         const dadosObj = Object.assign({}, dados, { id: id });
 
         const fornecedor = new Fornecedor(dadosObj);
-    
+
         await fornecedor.atualizar();
 
         res.status(204).end();
-    
-    } catch(erro) {
+
+    } catch (erro) {
         next(erro);
     }
 });
@@ -98,16 +98,36 @@ roteador.delete('/:idFornecedor', async (req, res, next) => {
     try {
         const id = req.params.idFornecedor;
 
-        const fornecedor = new Fornecedor({id: id});
-    
+        const fornecedor = new Fornecedor({ id: id });
+
         await fornecedor.carregar(fornecedor);
         await fornecedor.remover(fornecedor);
 
         res.status(204).end();
-    } catch(erro) {
+    } catch (erro) {
         next(erro);
     }
 });
+
+
+const roteadorProdutos = require('./produtos');
+
+/** Middleware para verificar o fornecedor */
+const verificarFornecedor = async (req, res, next) => {
+    try {
+        const id = req.params.idFornecedor;
+        const fornecedor = new Fornecedor({ id: id });
+        await fornecedor.carregar();
+        req.fornecedor = fornecedor;
+
+        next();
+    } catch (erro) {
+        next(erro);
+    }
+}
+
+roteador.use('/:idFornecedor/produtos', verificarFornecedor, roteadorProdutos);
+
 
 module.exports = roteador;
 
