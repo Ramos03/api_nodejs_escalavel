@@ -16,14 +16,21 @@ Além disto é bom ter um editor para trabalhar com o código como [VSCode](http
 ### Exemplo de consumo da Endpoint /api/fornecedores
 ```bash
 {
-{
 	"empresa": "",
 	"email": "",
 	"categoria": ""
 }
-}
+
 ```
 
+### Exemplo de consumo da Endpoint /api/fornecedores/:idFornecedor/produtos
+```bash
+{
+	"titulo": "",
+	"preco": 0,
+	"estoque": 0
+}
+```
 ### 🎲 Rodando a aplicação
 
 ```bash
