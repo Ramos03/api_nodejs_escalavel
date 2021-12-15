@@ -30,9 +30,17 @@ app.use((req, res, next) => {
     next();
 });
 
+app.use((req, res, next) => {
+    res.set('Access-Control-Allow-Origin', '*');
+    next();
+});
+
 const roteador = require('./rotas/fornecedores');
 
 app.use('/api/fornecedores', roteador);
+
+const roteadorV2 = require('./rotas/fornecedores/rotas.V2')
+app.use('/api/v2/fornecedores', roteadorV2);
 
 /**
  * Middleware para tratar erro e status

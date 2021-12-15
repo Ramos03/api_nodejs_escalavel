@@ -1,9 +1,9 @@
 {
     "mysql": {
-        "database": "",
-        "usuario": "",
-        "senha": "",
-        "host": ""
+        "database": "petshop",
+        "usuario": "alura2",
+        "senha": "1234",
+        "host": "127.0.0.1"
     },
     "api": {
         "porta": 3000
